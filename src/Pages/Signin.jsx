@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import 'react-toastify/dist/ReactToastify.css';
 import { toast, ToastContainer } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
@@ -13,10 +13,25 @@ const Signin = () => {
     const dispatch = useDispatch()
     const { client, notification } = useSelector(state => state.Ecommerce)
     const [passwordVisible, setPasswordVisible] = useState(false);
+    const navigate = useNavigate()
 
     const handleInput = (e) => {
         setobj({ ...obj, [e.target.name]: e.target.value })
     }
+
+    useEffect(() => {
+        setTimeout(() => {
+            if(notification.success){
+                if(client && client.role){
+                  if (client.role === "admin") {
+                      navigate("/dashboard")
+                  } else {
+                      navigate("/")
+                  }
+              }  
+            }
+        }, 1500);
+    }, [notification])
 
     const handleSignin = (e) => {
         e.preventDefault()
@@ -26,14 +41,10 @@ const Signin = () => {
         if (!obj.email || !obj.password) {
             toast.error("All fields are required", {
                 position: "top-center",
-                autoClose: 1500
+                autoClose: 1000
             })
         } else {
             dispatch(signin(obj))
-            // setobj({
-            //     email:"",
-            //     password:""
-            // })
         }
 
     }
@@ -46,8 +57,12 @@ const Signin = () => {
         if (notification?.success) {
             toast.success(notification.message, {
                 position: "top-center",
-                autoClose: 1500
+                autoClose: 1000
             });
+            setobj({
+                email: "",
+                password: ""
+            })
         } else if (notification?.message) {
             toast.error(notification.message, {
                 position: "top-center",
@@ -62,8 +77,8 @@ const Signin = () => {
     return (
         <>
             <div><ToastContainer /></div>
-            <section class="bg-gray-50 dark:bg-gray-900">
-                <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+            <section class="w-full h-scrern bg-gray-50 dark:bg-gray-900">
+                <div class="h-screen flex flex-col items-center justify-center px-3 md:px-6 py-8 mx-auto md:h-screen lg:py-0">
 
                     <div class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
                         <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
@@ -87,7 +102,7 @@ const Signin = () => {
                                             id="password"
                                             placeholder="••••••••"
                                             className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                            required
+                                            
                                         />
                                         {/* Button to toggle visibility */}
                                         <button

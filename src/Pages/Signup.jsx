@@ -28,15 +28,24 @@ const Signup = () => {
                 autoClose: 1500
             })
         } else {
-            dispatch(signup(obj))
-            setTimeout(() => {
-                dispatch(emptyNotification())
-                navigate("/signin")
-            }, 2500);
-            setobj({
-                email: "",
-                password: ""
-            })
+            if(obj.password.length < 8){
+                toast.error("Password must be at least 8 characters long",
+                    {
+                        position:"top-center",
+                        autoClose:1500
+                    }
+                )
+            }else{
+                dispatch(signup(obj))
+                setTimeout(() => {
+                    dispatch(emptyNotification())
+                    navigate("/signin")
+                }, 2500);
+                setobj({
+                    email: "",
+                    password: ""
+                })
+            }
         }
     }
 

@@ -23,6 +23,8 @@ export const changePassword=createAsyncThunk("changepassword",async({obj,token})
     return res.data
 }) 
 
+
+
 const userSlice = createSlice({
     name: "hangree-store",
     initialState: {
@@ -41,7 +43,7 @@ const userSlice = createSlice({
             state.notification=action.payload
         })
         .addCase(signin.fulfilled,(state,action)=>{
-            console.log(action.payload.message,"payload ")
+            console.log(action.payload.data,"signin data from backend")
             state.notification=action.payload
             if(state.notification.data){
                 state.client=action.payload.data.user
