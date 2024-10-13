@@ -3,43 +3,43 @@ import axios from "axios";
 
 export const addProduct = createAsyncThunk("product", async (obj) => {
     console.log(obj)
-    const res = await axios.post("http://localhost:4000/addproduct", obj)
+    const res = await axios.post("https://hangree-store-server.vercel.app/addproduct", obj)
     return res.data
 })
 
 
 export const getCollection = createAsyncThunk("getCollection", async () => {
-    const res = await axios.get("http://localhost:4000/getcollection")
+    const res = await axios.get("https://hangree-store-server.vercel.app/getcollection")
     return res.data
 })
 
 export const getUpdateProduct=createAsyncThunk("getUpdateProduct",async(id)=>{
     console.log(id,"iiiiiiiiiiiiiiiii")
-    const res=await axios.post("http://localhost:4000/getUpdateProduct",{id})
+    const res=await axios.post("https://hangree-store-server.vercel.app/getUpdateProduct",{id})
     return res.data
 })
 
 export const updateProduct=createAsyncThunk("updateProduct",async({obj,id})=>{
     console.log(id,"iiiiiiiiiiiiiiiii")
-    const res=await axios.post("http://localhost:4000/updateProduct",{obj,id})
+    const res=await axios.post("https://hangree-store-server.vercel.app/updateProduct",{obj,id})
     return res.data
 })
 
 
 export const dashboardDeleteProduct=createAsyncThunk("dashboardDeleteProduct",async(obj)=>{
     console.log(obj,"dashboardDeleteProduct")
-    const res=await axios.post("http://localhost:4000/dashboardDeleteProduct",obj)
+    const res=await axios.post("https://hangree-store-server.vercel.app/dashboardDeleteProduct",obj)
     return res.data
 })
 
 export const getAllUsers=createAsyncThunk("allusers",async()=>{
-    const res=await axios.get("http://localhost:4000/getallusers")
+    const res=await axios.get("https://hangree-store-server.vercel.app/getallusers")
     return res.data
 })
 
 export const deleteDashboardUser=createAsyncThunk("deleteuser",async(id)=>{
     console.log(id,"delete id")
-    const res=await axios.post("http://localhost:4000/deleteDashboardUser",{id})
+    const res=await axios.post("https://hangree-store-server.vercel.app/deleteDashboardUser",{id})
     return res.data
 })
 

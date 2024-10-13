@@ -3,19 +3,19 @@ import axios from "axios";
 
 export const signup=createAsyncThunk("signup",async(obj)=>{
     console.log(obj,"export")
-    const res=await axios.post("http://localhost:4000/signupdata",obj)
+    const res=await axios.post("https://hangree-store-server.vercel.app/signupdata",obj)
     return res.data
 })
 
 export const signin=createAsyncThunk("signin",async(obj)=>{
     console.log(obj,"signin object")
-    const res=await axios.post("http://localhost:4000/signindata",obj)
+    const res=await axios.post("https://hangree-store-server.vercel.app/signindata",obj)
     return res.data
 })
 
 export const changePassword=createAsyncThunk("changepassword",async({obj,token})=>{
     // console.log(obj,token,"kkkkkkkkkkkkkk")
-    const res=await axios.post("http://localhost:4000/changePassword",obj,{
+    const res=await axios.post("https://hangree-store-server.vercel.app/changePassword",obj,{
         headers:{
             Authorization:`Bearer ${token}`
         }
