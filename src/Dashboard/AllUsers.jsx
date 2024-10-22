@@ -14,6 +14,7 @@ const AllUsers = () => {
     const [startIndex, setstartIndex] = useState(0)
     const [perPage, setperPage] = useState(5)
     const [pageNumber, setpageNumber] = useState(1)
+    const [user,setuser]=useState({})
     const [increment,setincrement]=useState(1)
     const navigate=useNavigate()
 
@@ -21,10 +22,17 @@ const AllUsers = () => {
     useEffect(() => {
         dispatch(userPage(2))
         dispatch(getAllUsers())
+        setuser(JSON.parse(localStorage.getItem("User")) || {})
         // setTimeout(() => {
         //     dispatch(emptyDashboardNotification())
         // }, 1500);
     }, [deleteUserMsg])
+
+    useEffect(()=>{
+      if(user.role === "user"){
+        navigate("/")
+      }
+    },[user])
 
     useEffect(()=>{
         if(deleteUserMsg && deleteUserMsg.message){

@@ -17,27 +17,27 @@ const DashboardHome = () => {
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const [user,setuser]=useState({})
   const {getUsersMsg,notification}=useSelector(state=>state.Dashboard)
 
   useEffect(() => {
-    // dispatch(getDashboardData())
     dispatch(getCollection())
     dispatch(getAllUsers())
+    setuser(JSON.parse(localStorage.getItem("User")) || {})
   }, [])
 
-  //   useEffect(() => {
-  //     // dispatch(dashboardPage(0))
-  //     if (User?.role) {
-  //       if (User.role === "user") {
-  //         navigate("/")
-  //       }
-  //     }
-  //   }, [User])
+  
+    useEffect(()=>{
+      if(user.role === "user"){
+        navigate("/")
+      }
+    },[user])
 
 
   //   console.log(User, "dashboard user")
-  console.log(notification)
-  console.log(getUsersMsg)
+  // console.log(notification)
+  // console.log(getUsersMsg)
+  console.log(user,"TTTTTTTTTTTTT")
 
   return (
     <>

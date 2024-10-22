@@ -40,8 +40,6 @@ const AddProduct = () => {
             position:"top-center",
             autoClose:1000
         })
-        // if(addProductMsg && addProductMsg.message){
-        // }
     },[addProductMsg])
 
     const handleChange = (e) => {
@@ -52,7 +50,7 @@ const AddProduct = () => {
         e.preventDefault()
         dispatch(addProduct(obj))
         setTimeout(() => {
-            navigate("/")
+            // navigate("/")
         }, 1500);
     }
 

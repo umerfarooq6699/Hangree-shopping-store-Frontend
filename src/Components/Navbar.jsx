@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import logo from "../Images/Men/Logo.png";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { HiMiniBars3 } from "react-icons/hi2";
 import { useDispatch, useSelector } from 'react-redux';
 import { barsDispatch, cartNotificationEmpty, checkoutLogin, deleteProduct, inputQuantity, quantityDecrement, quantityIncrement } from '../Slices/Cart';
@@ -12,9 +12,11 @@ import { toast, ToastContainer } from 'react-toastify';
 const Navbar = () => {
     const [user, setUser] = useState(false);
     const dispatch = useDispatch()
+    const navigate = useNavigate()
     const [checkCart, setcheckCart] = useState(false)
     const { cartArray, notification } = useSelector(state => state.storeCart)
     const [token, settoken] = useState()
+    const [scndNotification, setscndNotification] = useState("")
 
     const handleUser = () => {
         setUser(!user);
@@ -26,13 +28,23 @@ const Navbar = () => {
     }
 
     useEffect(() => {
-        if(notification && notification.message){
-            toast.error(notification.message,{
-                position:"top-center",
-                autoClose:2000
-            })
+        if (notification && notification.status == "error") {
+            setTimeout(() => {
+                navigate("/signin")
+            }, 1500);
+        } else if (notification && notification.status == "success") {
+            navigate("/checkout")
         }
     }, [notification])
+
+    // useEffect(() => {
+    //     if (notification && notification.status === "error") {
+    //         toast.error(notification.message, {
+    //             position: "top-center",
+    //             autoClose: 2000
+    //         })
+    //     }
+    // }, [notification])
 
     useEffect(() => {
         settoken(localStorage.getItem("Token") || "")
@@ -103,20 +115,46 @@ const Navbar = () => {
     }
 
     const handleCheckout = () => {
-        console.log("working")
-        dispatch(checkoutLogin(token))
-        setTimeout(() => {
-            dispatch(cartNotificationEmpty())
-        }, 1500);
+        if (!token) {
+            // console.log("working")
+            setscndNotification("Please login first")
+            setcheckCart(false)
+            setTimeout(() => {
+                setscndNotification("")
+                navigate("/signin")
+            }, 1600);
+        } else {
+            dispatch(checkoutLogin(token))
+            setcheckCart(false)
+            setTimeout(() => {
+                dispatch(cartNotificationEmpty())
+            }, 1500);
+
+            // navigate("/checkout")
+        }
     }
 
-    // console.log(token, "Token checkout")
-    // console.log(notification.message, "notification cart")
+    console.log(token, "Token checkout")
+    console.log(notification, "notification cart")
+    console.log(scndNotification,"scndNotification")
 
     return (
         <>
-        <div><ToastContainer /></div>
-            <div className="w-full h-[80px] flex justify-between items-center px-4 md:px-[60px]">
+            {/* <div><ToastContainer /></div> */}
+            <div className="w-full h-[60px] md:h-[70px] flex justify-between items-center px-4 md:px-[60px] sticky top-0 left-0 bg-white z-20">
+                {
+                    scndNotification || notification && notification.message ?
+                        <>
+                            <div className='bg-white rounded pl-3 pr-[50px] py-3 border border-red-500 shadow fixed left-[50%] -translate-x-[50%] z-30'>
+                                <div className='absolute top-0 right-1 text-xl'>&times;</div>
+                                <div className='text-nowrap'>{notification.message || scndNotification}</div>
+                                <div className='barAnimation h-[3px] bg-red-500 absolute bottom-[2px] left-0'></div>
+                            </div>
+                        </>
+                        :
+                        <>
+                        </>
+                }
 
                 <div onClick={handleBars} className='block md:hidden'>
                     <HiMiniBars3 className='text-2xl cursor-pointer' />
@@ -128,10 +166,10 @@ const Navbar = () => {
 
                 <div className='flex'>
 
-                    
+
 
                     <div onClick={handleUser} className='cursor-pointer relative user-dropdown'>
-                        <div className={`w-[100px] absolute top-9  -left-7 rounded z-10 p-1 border-2 border-[#F0B059] ${user ? "block" : "hidden"} bg-white`}>
+                        <div className={`w-[100px] absolute top-9 -left-7 rounded z-20 p-1 border-2 border-[#F0B059] ${user ? "block" : "hidden"} bg-white`}>
                             <Link to="/signup">
                                 <div className='px-1 py-[1px] hover:bg-[#F0B059] hover:text-white'>Signup</div>
                             </Link>
@@ -150,7 +188,7 @@ const Navbar = () => {
                     </div>
 
                     {/* --------------------------cart sidebar----------------------------- */}
-                    <div onClick={handleOverlay} className={`overlay w-full h-screen cursor-crosshair ${checkCart ? "visible" : "invisible"} bg-[rgb(0,0,0,0.6)] fixed top-0 left-0 z-10`}>
+                    <div onClick={handleOverlay} className={`overlay w-full h-screen cursor-crosshair ${checkCart ? "visible" : "invisible"} bg-[rgb(0,0,0,0.6)] fixed top-0 left-0 z-50`}>
                         <div className='w-[90%] md:w-[40%] lg:w-[30%] h-screen bg-white absolute top-0 right-0 cursor-auto'>
                             <div className='flex justify-between border-b border-[rgb(190,190,190)] p-5'>
                                 <h1>CART</h1>

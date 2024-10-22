@@ -69,11 +69,11 @@ const QuickView = ({ viewObject, setviewObject }) => {
   return (
     <>
     <div><ToastContainer/></div>
-      <div onClick={handleOverlay} className='overlay cursor-crosshair w-full h-screen overlay flex justify-center items-center bg-[rgb(0,0,0,0.6)] z-10 fixed top-0'>
-        <div className=' w-[80%] h-[86vh] relative md:h-auto lg:h-auto overflow-y-scroll lg:overflow-auto bg-white cursor-auto'>
+      <div onClick={handleOverlay} className='overlay cursor-crosshair w-full h-screen overlay flex justify-center items-center bg-[rgb(0,0,0,0.6)] z-20 fixed top-0'>
+        <div className=' w-[80%] h-[86vh] p-2 md:p-0 relative md:h-auto lg:h-auto overflow-y-scroll lg:overflow-auto bg-white cursor-auto'>
         <div onClick={handleCross} className='w-[30px] h-[30px] bg-black hover:bg-gray-600 text-white absolute top-2 right-2 flex justify-center items-center cursor-pointer rounded-full'><FaXmark />
         </div>
-          <div className=' grid grid-cols-1 md:grid-cols-2 '>
+          <div className=' grid grid-cols-1 md:grid-cols-2'>
 
             <div className='md:flex justify-center items-center md:px-3 lg:px-0 lg:py-3'>
               <div className='w-full lg:w-[80%]'>

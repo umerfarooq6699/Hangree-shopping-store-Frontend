@@ -10,6 +10,7 @@ import DashboardHome from './Dashboard/DashboardHome'
 import Products from './Dashboard/Products'
 import UpdateProduct from './Dashboard/UpdateProduct'
 import AllUsers from './Dashboard/AllUsers'
+import Checkout from './Components/Checkout'
 
 const App = () => {
   return (
@@ -24,7 +25,8 @@ const App = () => {
           <Route path='/dashboard' element={<DashboardHome/>}/>
           <Route path='/dashboardProducts' element={<Products/>}/>
           <Route path='/updateProduct/:id' element={<UpdateProduct/>}/>
-          <Route path='dashboardUsers' element={<AllUsers/>} />
+          <Route path='/dashboardUsers' element={<AllUsers/>} />
+          <Route path='/checkout' element={<Checkout/>} />
         </Routes>
       </BrowserRouter>
     </>

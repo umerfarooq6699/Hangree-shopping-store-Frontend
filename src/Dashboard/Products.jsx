@@ -14,7 +14,8 @@ const Products = () => {
   const [searchValue, setSearchValue] = useState("")
   const [quickView, setQuickView] = useState("")
   const { notification} = useSelector(state => state.Dashboard)
-  const [User, setUser] = useState(JSON.parse(localStorage.getItem("user")) || "")
+  const {client}=useSelector(state=>state.Ecommerce)
+  const [user,setuser]=useState({})
   const dispatch = useDispatch()
   const [startIndex, setstartIndex] = useState(0)
   const [perPage, setperPage] = useState(5)
@@ -26,21 +27,19 @@ const Products = () => {
   useEffect(() => {
     dispatch(dashboardPage(1))
     dispatch(getCollection())
-    // if(User){
-    //     if(User.role === "user"){
-    //         navigate("/")
-    //     }
-    // }
+    setuser(JSON.parse(localStorage.getItem("User")) || {})
   }, [increment])
 
-  // useEffect(()=>{
-  //   setarray(notification?.data?.array)
-  // },[notification])
   
 
-
+  useEffect(()=>{
+    if(user.role === "user"){
+      navigate("/")
+    }
+  },[user])
+  
   useEffect(() => {
-    console.log(notification?.data?.array, "chunk")
+    // console.log(notification?.data?.array, "chunk")
     if (notification?.data?.array) {
       setTimeout(() => {
         setarray(notification?.data?.array.slice(startIndex, startIndex + 5))
@@ -101,9 +100,10 @@ const Products = () => {
     setstartIndex(maxPage * 5 - 5)
   }
 
-  console.log(notification, 'deleted notification')
+  // console.log(notification, 'deleted notification')
   // console.log(delProductMsg, 'deleted delProductMsg')
-  console.log(quickView,"quickView")
+  console.log(client,"Client")
+  // console.log(quickView,"quickView")
 
   return (
     <>
